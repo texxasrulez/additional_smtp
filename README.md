@@ -1,4 +1,4 @@
-# Aditional SMTP Users #
+# Aditional SMTP Accounts #
 
 **Coming Soon**
 
@@ -7,7 +7,7 @@ All I have left is converting mcrypt to openssl ...
 
 **Send Email from an external SMTP account from within Roundcube**  
 
-Gmail and Yahoo are preconfigured. You can add more within the config.inc.php file.  
+Gmail Yahoo and Hotmail are preconfigured. You can add more within the config.inc.php file.  
 
 upload files to `/path_to_roundcube/plugins/additional_smtp`  
 
