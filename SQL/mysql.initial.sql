@@ -32,4 +32,4 @@ CREATE TABLE IF NOT EXISTS `additional_smtp_hosts` (
   PRIMARY KEY (`id`)
 ) /*!40000 ENGINE=INNODB */ /*!40101 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci AUTO_INCREMENT=1 */;
 
-REPLACE INTO `system` (`name`, `value`) VALUES ('additional_smtp-version', '2020080200');
+REPLACE INTO `system` (`name`, `value`) VALUES ('additional_smtp-version', '2020080500');
