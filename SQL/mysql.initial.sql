@@ -1,5 +1,5 @@
 /*
- * Roundcube Additional IMAP Schema
+ * Roundcube Additional SMTP Schema
  *
  * @author Gene Hawkins <texxasrulez@yahoo.com>
  *
