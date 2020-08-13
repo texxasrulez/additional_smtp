@@ -4,16 +4,16 @@
 
 Supported Webmail Providers "out of the box"  
 
-* gmail.com  
-* googlemail.com  
-* yahoo.com    
-* hotmail.com    
-* live.com    
-* outlook.com    
-* aol.com    
-* gmx.com    
-* icloud.com    
-* yandex.com  
+* gmail.com (Tested - Works)  
+* googlemail.com (Un-Tested)  
+* yahoo.com (Tested - Works)  
+* hotmail.com (Tested - Works)  
+* live.com (Un-Tested)  
+* outlook.com (Un-Tested)  
+* aol.com (Un-Tested)  
+* gmx.com (Un-Tested)  
+* icloud.com (Un-Tested)  
+* yandex.com (Un-Tested)  
   
 If you would like more, just give me the url of the webmail provider and I will add it if able to.  
 

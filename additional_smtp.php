@@ -16,6 +16,11 @@ class additional_smtp extends rcube_plugin {
     }
 
     function password_change($args) {
+	
+	// encrypted with your Roundcube user password using RC's default des_key
+        $rcmail = rcmail::get_instance();
+        $rc_des_key = self::getDesKey();
+		
         $rcmail = $this->rcmail;
         if ($rcmail->config->get('additional_smtp_crypt') == 'secure') {
             $sql = 'SELECT * FROM ' . rcmail::get_instance()->db->table_name('additional_smtp').
@@ -26,8 +31,8 @@ class additional_smtp extends rcube_plugin {
                 $conf[] = $sql_arr;
             }
             foreach($conf as $sql_arr) {
-                $decrypt = $this->decrypt($sql_arr['password'], $args['old_pass'], $rcmail->config->get('additional_smtp_salt', '!!!!Random_1_2_4_5_6_String!!!!'));
-                $decrypt = $this->encrypt($decrypt, $args['new_pass'], $rcmail->config->get('additional_smtp_salt', '!!!!Random_1_2_4_5_6_String!!!!'));
+                $decrypt = $this->decrypt($sql_arr['password'], $args['old_pass'], $rcmail->config->get('additional_smtp_salt', '%E`c{2;<J2F^4_&._BxfQ<5Pf3qv!m{e'));
+                $decrypt = $this->encrypt($decrypt, $args['new_pass'], $rcmail->config->get('additional_smtp_salt', '%E`c{2;<J2F^4_&._BxfQ<5Pf3qv!m{e'));
                 $sql = 'UPDATE ' . rcmail::get_instance()->db->table_name('additional_smtp').
                 ' SET password=? WHERE user_id=? AND iid=?';
                 $rcmail->db->query($sql, $decrypt, $rcmail->user->ID, $sql_arr['iid']);
@@ -101,7 +106,7 @@ class additional_smtp extends rcube_plugin {
                         }
                         $sql_arr['smtp_server'] = $sql_arr['server'];
                         $sql_arr['smtp_user'] = $sql_arr['username'];
-                        $decrypt = $this->decrypt($sql_arr['password'], $rcmail->decrypt($_SESSION['password']), $rcmail->config->get('additional_smtp_salt', '!!!!Random_1_2_4_5_6_String!!!!'));
+                        $decrypt = $this->decrypt($sql_arr['password'], $rcmail->decrypt($_SESSION['password']), $rcmail->config->get('additional_smtp_salt', '%E`c{2;<J2F^4_&._BxfQ<5Pf3qv!m{e'));
                         $sql_arr['smtp_pass'] = $decrypt;
                         $args = array_merge($args, $sql_arr);
                         $rcmail->config->set('no_save_sent_messages', $sql_arr['nosavesent'] ? true : false);
@@ -238,7 +243,7 @@ class additional_smtp extends rcube_plugin {
             $smtp_enabled = rcube_utils::get_input_value('_additional_smtp_enabled', rcube_utils::INPUT_POST) ? 1 : 0;
             $no_sav = rcube_utils::get_input_value('_additional_smtp_nosavesent', rcube_utils::INPUT_POST) ? 1 : 0;
             if ($pass = trim(rcube_utils::get_input_value('_additional_smtp_smtppass', rcube_utils::INPUT_POST, true))) {
-                $pass = $this->encrypt($pass, $rcmail->decrypt($_SESSION['password']), $rcmail->config->get('additional_smtp_salt', '!!!!Random_1_2_4_5_6_String!!!!'));
+                $pass = $this->encrypt($pass, $rcmail->decrypt($_SESSION['password']), $rcmail->config->get('additional_smtp_salt', '%E`c{2;<J2F^4_&._BxfQ<5Pf3qv!m{e'));
             }
             $sql = 'SELECT * from ' . rcmail::get_instance()->db->table_name('additional_smtp').
             ' WHERE iid=? AND user_id=?';
@@ -304,5 +309,93 @@ class additional_smtp extends rcube_plugin {
             }
             return $trim_crypt;
         }
+    }
+	
+	// password helpers
+    private static function getDesKey(): string
+    {
+        $rcmail = rcmail::get_instance();
+        $imap_password = $rcmail->decrypt($_SESSION['password']);
+        while (strlen($imap_password) < 24) {
+            $imap_password .= $imap_password;
+        }
+        return substr($imap_password, 0, 24);
+    }
+
+    public static function encryptPassword(string $clear): string
+    {
+        $scheme = self::$pwstore_scheme;
+
+        if (strcasecmp($scheme, 'plain') === 0) {
+            return $clear;
+        }
+
+        if (strcasecmp($scheme, 'encrypted') === 0) {
+            if (empty($_SESSION['password'])) { // no key for encryption available, downgrade to DES_KEY
+                $scheme = 'des_key';
+            } else {
+                // encrypted with IMAP password
+                $rcmail = rcmail::get_instance();
+
+                $imap_password = self::getDesKey();
+                $deskey_backup = $rcmail->config->set('additional_smtp_salt', $imap_password);
+
+                $crypted = $rcmail->encrypt($clear, 'additional_smtp_salt');
+
+                // there seems to be no way to unset a preference
+                $deskey_backup = $rcmail->config->set('additional_smtp_salt', '');
+
+                return '{ENCRYPTED}' . $crypted;
+            }
+        }
+
+        if (strcasecmp($scheme, 'des_key') === 0) {
+            // encrypted with global des_key
+            $rcmail = rcmail::get_instance();
+            $crypted = $rcmail->encrypt($clear);
+            return '{DES_KEY}' . $crypted;
+        }
+
+        // default: base64-coded password
+        return '{BASE64}' . base64_encode($clear);
+    }
+
+    public static function decryptPassword(string $crypt): string
+    {
+        if (strpos($crypt, '{ENCRYPTED}') === 0) {
+            // return empty password if decruption key not available
+            if (empty($_SESSION['password'])) {
+                self::$logger->warning("Cannot decrypt password as now session password is available");
+                return "";
+            }
+
+            $crypt = substr($crypt, strlen('{ENCRYPTED}'));
+            $rcmail = rcmail::get_instance();
+
+            $imap_password = self::getDesKey();
+            $deskey_backup = $rcmail->config->set('additional_smtp_salt', $imap_password);
+
+            $clear = $rcmail->decrypt($crypt, 'additional_smtp_salt');
+
+            // there seems to be no way to unset a preference
+            $deskey_backup = $rcmail->config->set('additional_smtp_salt', '');
+
+            return $clear;
+        }
+
+        if (strpos($crypt, '{DES_KEY}') === 0) {
+            $crypt = substr($crypt, strlen('{DES_KEY}'));
+            $rcmail = rcmail::get_instance();
+
+            return $rcmail->decrypt($crypt);
+        }
+
+        if (strpos($crypt, '{BASE64}') === 0) {
+            $crypt = substr($crypt, strlen('{BASE64}'));
+            return base64_decode($crypt);
+        }
+
+        // unknown scheme, assume cleartext
+        return $crypt;
     }
 }
