@@ -13,17 +13,57 @@ $config['additional_smtp_external'] = array(
   'gmail.com' => array(
     'host' =>'ssl://smtp.gmail.com:465',
     'no_save_sent_messages' => true, // Google stores sent mail in user mailbox
-    'readonly' => true, // on match prevent field editing
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
   ),
   'googlemail.com' => array(
     'host' =>'ssl://smtp.gmail.com:465',
     'no_save_sent_messages' => true, // Google stores sent mail in user mailbox
-    'readonly' => true, // on match prevent field editing
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'yahoo.com' => array(
+    'host' =>'ssl://smtp.mail.yahoo.com:465',
+    'no_save_sent_messages' => true, // Yahoo stores sent mail in user mailbox
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'hotmail.com' => array(
+    'host' =>'ssl://smtp.live.com:587',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'live.com' => array(
+    'host' =>'ssl://smtp.live.com:587',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'outlook.com' => array(
+    'host' =>'ssl://smtp-mail.outlook.com:587',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'aol.com' => array(
+    'host' =>'ssl://smtp.aol.com:465',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'gmx.com' => array(
+    'host' =>'ssl://mail.gmx.com:587',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'icloud.com' => array(
+    'host' =>'ssl://smtp.mail.me.com:587',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'yandex.com' => array(
+    'host' =>'ssl://smtp.yandex.com:465',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
   ),
   'freenet.de' => array(
     'host' =>'mx.freenet.de',
     'no_save_sent_messages' => false,
-    'readonly' => false, // on match prevent field editing
+    'readonly' => false, // This prevents field editing & does not make your remote email "Read Only"
   ),
 );
 
