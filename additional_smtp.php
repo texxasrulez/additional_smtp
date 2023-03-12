@@ -161,10 +161,10 @@ class additional_smtp extends rcube_plugin {
                 $rc_uname = explode('@', $this->rcmail->user->data['username'], 2);
                 $smtp_ext = $rcmail->config->get('additional_smtp_external', array());
                 $smtp_int = $rcmail->config->get('additional_smtp_internal', array());
-                if ($instance = $smtp_int[strtolower($sender[1])]) {
+                if ($instance = $smtp_int[strtolower($sender[1])] ?? null) {
                     $ident_form = false;
                     $no_sav = $instance['no_save_sent_messages'];
-                } else if ($instance = $smtp_ext[strtolower($sender[1])]) {
+                } else if ($instance = $smtp_ext[strtolower($sender[1])] ?? null) {
                     $server = $instance['host'];
                     if ($instance['readonly']) {
                         $data = 'readonly';
@@ -220,7 +220,7 @@ class additional_smtp extends rcube_plugin {
                 }
             }
             if ($ident_form) {
-                if ($pass) {
+                if (!empty($pass)) {
                     $i = $this->gettext('isset');
                 } else {
                     $i = $this->gettext('isnotset');
