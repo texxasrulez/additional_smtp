@@ -1,6 +1,6 @@
+<?php
 // Identities SMTP Plugin for Roundcube
 
-<?php
 $labels=array();
 $labels['pluginname']='External SMTP Accounts';
 $labels['plugindescription']='Associate SMTP relays to account\'s identities on a per user level.';
