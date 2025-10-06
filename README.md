@@ -1,5 +1,12 @@
 # Aditional SMTP Users #
 
+[![Packagist](https://img.shields.io/packagist/dt/texxasrulez/additional_smtp?style=flat-square)](https://packagist.org/packages/texxasrulez/additional_smtp)
+[![Packagist Version](https://img.shields.io/packagist/v/texxasrulez/additional_smtp?style=flat-square)](https://packagist.org/packages/texxasrulez/additional_smtp)
+[![Project license](https://img.shields.io/github/license/texxasrulez/additional_smtp?style=flat-square)](https://github.com/texxasrulez/additional_smtp/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/texxasrulez/additional_smtp?style=flat-square&logo=github)](https://github.com/texxasrulez/additional_smtp/stargazers)
+[![issues](https://img.shields.io/github/issues/texxasrulez/additional_smtp)](https://github.com/texxasrulez/additional_smtp/issues)
+[![Donate to this project using Paypal](https://img.shields.io/badge/paypal-donate-blue.svg?style=flat-square&logo=paypal)](https://www.paypal.me/texxasrulez)
+
 **Send Email from an external SMTP account from within Roundcube**  
 
 Supported Webmail Providers "out of the box"  
