@@ -1,0 +1,97 @@
+<?php
+/* Password encryption:
+    'rcmail': encrypt passwords by default Roundcube methods.
+    'secure': must re-enter passwords if changed via other means
+*/
+$config['additional_smtp_crypt'] = 'rcmail';
+
+/* password encryption salt (only used for secure encryption) */
+// $config['additional_smtp_salt'] = 'Utilizes RC Default des_key generated at installation';
+
+/* predefined smtp hosts (associated with the domain part of the identity email property) */
+$config['additional_smtp_external'] = array(
+  'gmail.com' => array(
+    'host' =>'ssl://smtp.gmail.com:465',
+    'no_save_sent_messages' => true, // Google stores sent mail in user mailbox
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'googlemail.com' => array(
+    'host' =>'ssl://smtp.gmail.com:465',
+    'no_save_sent_messages' => true, // Google stores sent mail in user mailbox
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'yahoo.com' => array(
+    'host' =>'ssl://smtp.mail.yahoo.com:465',
+    'no_save_sent_messages' => true, // Yahoo stores sent mail in user mailbox
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'hotmail.com' => array(
+    'host' =>'ssl://smtp.live.com:587',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'live.com' => array(
+    'host' =>'ssl://smtp.live.com:587',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'outlook.com' => array(
+    'host' =>'ssl://smtp-mail.outlook.com:587',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'aol.com' => array(
+    'host' =>'ssl://smtp.aol.com:465',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'gmx.com' => array(
+    'host' =>'ssl://mail.gmx.com:587',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'icloud.com' => array(
+    'host' =>'ssl://smtp.mail.me.com:587',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'yandex.com' => array(
+    'host' =>'ssl://smtp.yandex.com:465',
+    'no_save_sent_messages' => true,
+    'readonly' => true, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+  'freenet.de' => array(
+    'host' =>'mx.freenet.de',
+    'no_save_sent_messages' => false,
+    'readonly' => false, // This prevents field editing & does not make your remote email "Read Only"
+  ),
+);
+
+/* local smtp hosts (associated with the domain part of identitiy email property) */
+$config['additional_smtp_internal'] = array(
+  'mydomain1.tld' => array(
+    'host' => 'smtp.mydomain1.tld',
+    'smtp_user' => '%u',
+    'smtp_pass' => '%p',
+    'smtp_helo_host' => 'smtp.mydomain1.tld',
+    'smtp_auth_type' => '',
+    'no_save_sent_messages' => false,
+    'readonly' => true,
+  ),
+  'mydomain2.tld' => array(
+    'host' => 'ssl://smtp.mydomain2.tld:465',
+    'smtp_user' => '%u',
+    'smtp_pass' => '%p',
+    'smtp_helo_host' => 'smtp.mydomain2.tld',
+    'smtp_auth_type' => '',
+    'no_save_sent_messages' => false,
+    'readonly' => false,
+  ),
+);
+
+/* auto-detect SMTP server */
+$config['additional_smtp_autodetect'] = false;
+
+/* write plugin diagnostics to the Roundcube log */
+$config['additional_smtp_debug'] = false;
+?>
